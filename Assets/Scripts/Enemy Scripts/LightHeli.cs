@@ -13,7 +13,7 @@ public class LightHeli : EnemyController
     // Update is called once per frame
     void Update()
     {
-        EnemyMovement();
-        Fire();
+         EnemyMovement();
+         Fire();
     }
 }

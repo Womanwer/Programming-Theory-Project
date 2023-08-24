@@ -10,13 +10,16 @@ public class NormalHeli : EnemyController
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        StartCoroutine(EnemyIntro());
     }
 
     // Update is called once per frame
     void Update()
     {
-        EnemyMovement();
-        Fire();
+        if (introDone)
+        {
+            EnemyMovement();
+            Fire();
+        }
     }
-
  }

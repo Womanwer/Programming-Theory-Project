@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE; parent class EnemyController has 3 child classes: HeavyHeli, NormalHeli, and LightHeli.
 public class EnemyController : MonoBehaviour
 {
     public static readonly HashSet<EnemyController> Entities = new HashSet<EnemyController>();
@@ -18,12 +19,15 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float fireDelay;
     private float zBound = 30.0f;
     private float timer;
+    private Vector3 initialPos;
 
     public bool isShooting;
+    public bool introDone;
     
     // Start is called before the first frame update
     void Start()
     {
+        introDone = false;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         
     }
@@ -35,6 +39,7 @@ public class EnemyController : MonoBehaviour
         Fire();
     }
 
+    // POLYMORPHISM
     // Moves enemy down the screen
     public virtual void EnemyMovement()
     {
@@ -42,6 +47,7 @@ public class EnemyController : MonoBehaviour
         OutofBounds();
     }
 
+    // POLYMORPHISM
     // Enemy fires projectiles at a specific firerate
     public virtual void Fire()
     {
@@ -85,9 +91,34 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public IEnumerator EnemyIntro()
+    {
+        Vector3 startPos = initialPos;
+        Vector3 endPos = initialPos - new Vector3(0, 0, 8);
+
+        float lerpSpeed = 5.0f;
+        float journeyLength = Vector3.Distance(startPos, endPos);
+        float startTime = Time.time;
+
+        float distanceCovered = (Time.time - startTime) * lerpSpeed;
+        float fractionOfJourney = distanceCovered / journeyLength;
+
+        while (fractionOfJourney < 1)
+        {
+            distanceCovered = (Time.time - startTime) * lerpSpeed;
+            fractionOfJourney = distanceCovered / journeyLength;
+            transform.position = Vector3.Lerp(startPos, endPos, fractionOfJourney);
+            yield return null;
+        }
+        introDone = true;
+
+    }
+
     // Add instance of enemy to list of entities (for MissileBehavior script)
     private void Awake()
     {
+        initialPos = transform.position;
+        
         Entities.Add(this);
     }
 
