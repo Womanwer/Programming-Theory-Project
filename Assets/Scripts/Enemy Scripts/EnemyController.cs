@@ -19,24 +19,21 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float fireDelay;
     private float zBound = 30.0f;
     private float timer;
-    private Vector3 initialPos;
+    protected Vector3 initialPos;
 
     public bool isShooting;
-    public bool introDone;
+    protected bool introDone;
     
     // Start is called before the first frame update
     void Start()
     {
-        introDone = false;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
+        introDone = false;        
     }
 
     // Update is called once per frame
     void Update()
     {
-        EnemyMovement();
-        Fire();
+        
     }
 
     // POLYMORPHISM
@@ -60,6 +57,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     // Destroy enemy if colliding with player projectile
     private void OnCollisionEnter(Collision collision)
     {
@@ -94,7 +92,7 @@ public class EnemyController : MonoBehaviour
     public IEnumerator EnemyIntro()
     {
         Vector3 startPos = initialPos;
-        Vector3 endPos = initialPos - new Vector3(0, 0, 8);
+        Vector3 endPos = initialPos - new Vector3(0, 0, Random.Range(8,14));
 
         float lerpSpeed = 5.0f;
         float journeyLength = Vector3.Distance(startPos, endPos);
@@ -114,11 +112,35 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    // ABSTRACTION
+    protected IEnumerator SidetoSideMovement(Vector3 pointA, float speed, float xRange)
+    {
+        var pointB = pointA - new Vector3(xRange, 0, 0);
+        
+        while (true)
+        {
+            yield return StartCoroutine(MoveObject(transform, pointA, pointB, speed));
+            yield return StartCoroutine(MoveObject(transform, pointB, pointA, speed));
+        }
+
+    }
+    protected IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
+    {
+        var i = 0.0f;
+        var rate = 1.0f / time;
+        while (i < 1.0f)
+        {
+            i += Time.deltaTime * rate;
+            thisTransform.position = Vector3.Lerp(startPos, endPos, i);
+            yield return null;
+        }
+    }
+
     // Add instance of enemy to list of entities (for MissileBehavior script)
     private void Awake()
     {
         initialPos = transform.position;
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         Entities.Add(this);
     }
 

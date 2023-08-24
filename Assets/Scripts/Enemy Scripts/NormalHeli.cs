@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NormalHeli : EnemyController
 {
-    
+    private float heliSpeed = 2.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+       
         StartCoroutine(EnemyIntro());
     }
 
@@ -18,8 +18,25 @@ public class NormalHeli : EnemyController
     {
         if (introDone)
         {
+            
             EnemyMovement();
             Fire();
+            
         }
     }
- }
+
+    // POLYMORPHISM
+    public override void EnemyMovement()
+    {
+        
+        if (gameManager.isGameActive)
+        {
+            Transform target = FindObjectOfType<PlayerController>().transform;
+            Vector3 direction = (target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, heliSpeed * Time.deltaTime);
+        }
+        
+    }
+}

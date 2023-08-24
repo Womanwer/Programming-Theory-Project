@@ -5,6 +5,7 @@ using System.IO;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    // ENCAPSULATION
     public static PlayerDataManager Instance { get; private set; }
     public int bestScore;
     public string playerName;

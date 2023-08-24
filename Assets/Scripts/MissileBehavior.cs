@@ -6,14 +6,10 @@ public class MissileBehavior : MonoBehaviour
 {
     AudioSource audioSource;
     public AudioClip soundToPlay;
-    
-    private Transform target;
-    private float speed = 15.0f;
-    private bool homing;
 
+    private float speed = 15.0f;
     private float aliveTimer = 2.0f;
     
-
     // Start is called before the first frame update
     void Start()
     {

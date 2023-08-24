@@ -15,9 +15,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject titleScreen;
     [SerializeField] GameObject pauseScreen;
 
-    private bool isGameActive;
+    public bool isGameActive;
     private bool isGamePaused;
-    public int playerHealth;
+    // ENCAPSULATION
+    private int m_playerHealth;
+    public int playerHealth
+    {
+        get { return m_playerHealth; }
+        set
+        {
+            if (value < 0 )
+            {
+                Debug.LogError("Player health can not be below 0");
+            }
+            else
+            {
+                m_playerHealth = value;
+            }
+        }
+    }
     public int score;
     public int prevBestScore;
 
@@ -49,6 +65,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ABSTRACTION
         if (Input.GetKeyDown(KeyCode.E) && !isGameActive)
         {
             StartGame();
@@ -138,8 +155,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateHealth()
     {
-        playerHealth--;
-        Debug.Log("Player Health Reduced! Player HP = " + playerHealth);
+        m_playerHealth--;
         healthText.text = "HP: " + playerHealth;
         if (playerHealth == 0)
         {
@@ -154,7 +170,7 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.Find("Player");
         isGameActive = true;
-        playerHealth = 5;
+        m_playerHealth = 5;
         healthText.text = "HP: " + playerHealth;
         powerUpText.text = "Power Up: None";
         UpdateScore(0);

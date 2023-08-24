@@ -4,7 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float playerSpeed = 15.0f;
+    // ENCAPSULATION
+    private float m_playerSpeed = 15.0f;
+    public float playerSpeed
+    {
+        get { return m_playerSpeed; }
+        set
+        {
+            if (value < 0.0f)
+            {
+                Debug.LogError("Attempted to set player speed to a negative value");
+            }
+            else
+            {
+                m_playerSpeed = value;
+            }
+        }   
+    }
+    
     private float xBound = 20.0f;
     private float zBound = 12.0f;
 
@@ -40,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentPowerUp == PowerUpType.Rotor)
         {
-            playerSpeed = 20.0f;      
+            m_playerSpeed = 20.0f;      
         }
         if (currentPowerUp == PowerUpType.Missiles)
         {
@@ -106,7 +123,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("EnemyProjectile"))
         {
-            Debug.Log("Player Hit by " + collision.gameObject.name);
             gameManager.UpdateHealth();
             Destroy(collision.gameObject);
         }
