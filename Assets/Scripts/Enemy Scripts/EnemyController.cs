@@ -30,12 +30,6 @@ public class EnemyController : MonoBehaviour
         introDone = false;        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // POLYMORPHISM
     // Moves enemy down the screen
     public virtual void EnemyMovement()
@@ -58,13 +52,14 @@ public class EnemyController : MonoBehaviour
     }
 
     // ABSTRACTION
-    // Destroy enemy if colliding with player projectile
+    // Detects collision
     private void OnCollisionEnter(Collision collision)
     {
-        DetectCollision(collision);
+        CheckCollisionTag(collision);
     }
 
-    public void DetectCollision(Collision collision)
+    // Destroy enemy if colliding with player projectile
+    public void CheckCollisionTag(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
@@ -88,7 +83,8 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
+    // Allow object to enter play area before beginning movement (used with specific types of movement)
     public IEnumerator EnemyIntro()
     {
         Vector3 startPos = initialPos;
@@ -112,6 +108,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    // Allows enemy to move between two points repeatedly
     // ABSTRACTION
     protected IEnumerator SidetoSideMovement(Vector3 pointA, float speed, float xRange)
     {
@@ -124,6 +121,8 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+
+    // Moves an enemy from a starting position to an end position
     protected IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
     {
         var i = 0.0f;
@@ -144,6 +143,7 @@ public class EnemyController : MonoBehaviour
         Entities.Add(this);
     }
 
+    // Remove this instance from list when destroyed
     private void OnDestroy()
     {
         Entities.Remove(this);

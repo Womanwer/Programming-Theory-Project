@@ -141,7 +141,6 @@ public class PlayerController : MonoBehaviour
             {
                 StopCoroutine(PowerUpCountdownCoroutine());
             }
-            
             StartCoroutine(PowerUpCountdownCoroutine());
         }
     }

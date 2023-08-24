@@ -20,11 +20,8 @@ public class MissileBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         FindClosestEnemy();
-       
         Destroy(gameObject, aliveTimer);
-
     }
 
     // Find and track the closest enemy
@@ -56,7 +53,6 @@ public class MissileBehavior : MonoBehaviour
         }
     }
 
-   
     // Destroy missile and enemy when colliding
     void OnCollisionEnter(Collision collision)
     {
@@ -66,6 +62,4 @@ public class MissileBehavior : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
 }

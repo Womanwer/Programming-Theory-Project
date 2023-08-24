@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameActive;
     private bool isGamePaused;
+
     // ENCAPSULATION
     private int m_playerHealth;
     public int playerHealth
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public int score;
     public int prevBestScore;
 
@@ -52,14 +54,11 @@ public class GameManager : MonoBehaviour
     private float spawnPosZ = 13.0f;
     private Vector3 spawnPos;
 
-    
-    
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnClouds());
-
         prevBestScore = PlayerDataManager.Instance.bestScore;
+        StartCoroutine(SpawnClouds());
     }
 
     // Update is called once per frame

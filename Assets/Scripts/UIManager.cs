@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
         UpdateName();
         UILoadScore();
     }
+
     public void SaveNameInput()
     {
         PlayerDataManager.Instance.playerName = nameInput.text;
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
     {
         highScoreText.text = "Your Best Score is: " + PlayerDataManager.Instance.bestScore;
     }
+
     public void UpdateName()
     {
         if (PlayerDataManager.Instance.playerName != null)

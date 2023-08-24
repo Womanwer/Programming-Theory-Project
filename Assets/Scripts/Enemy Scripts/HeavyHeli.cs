@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class HeavyHeli : EnemyController
 {
-
     private float heliSpeed = 2.0f;
     private float xRange = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         StartCoroutine(EnemyIntro());
     }
 
@@ -23,7 +21,6 @@ public class HeavyHeli : EnemyController
             EnemyMovement();
             Fire();
         }
-                
     }
 
     // POLYMORPHISM
@@ -31,7 +28,4 @@ public class HeavyHeli : EnemyController
     {
         StartCoroutine(SidetoSideMovement(transform.position, heliSpeed, xRange));
     }
-
-    
-
 }
